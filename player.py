@@ -4,7 +4,7 @@ import time
 from subprocess import Popen
 
 # USB directory path
-usb_directory = "/media/usb/"
+usb_directory = "/mnt/usb1"
 
 videos = []
 
