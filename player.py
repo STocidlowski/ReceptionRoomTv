@@ -3,16 +3,22 @@ import random
 import time
 from subprocess import Popen
 
-# Directory containing the videos
-directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'videos')
+# USB directory path
+usb_directory = "/media/usb/"
 
 videos = []
 
 
 def get_videos():
-    """Populate the global 'videos' list with video files from the directory."""
+    """Populate the global 'videos' list with video files from the USB directory."""
     global videos
-    videos = [os.path.join(directory, file) for file in os.listdir(directory) if file.lower().endswith('.mp4')]
+    videos = []
+    if os.path.exists(usb_directory):
+        for file in os.listdir(usb_directory):
+            if file.lower().endswith('.mp4'):
+                videos.append(os.path.join(usb_directory, file))
+    else:
+        print(f"USB directory '{usb_directory}' not found. Ensure the USB is connected and mounted.")
 
 
 def play_videos():
@@ -21,7 +27,7 @@ def play_videos():
     if not videos:
         get_videos()
         if not videos:  # If still empty, wait and retry
-            print("No videos found. Retrying in 5 seconds...")
+            print("No videos found in the USB directory. Retrying in 5 seconds...")
             time.sleep(5)
             return
     random.shuffle(videos)
