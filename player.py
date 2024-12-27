@@ -15,7 +15,7 @@ def get_videos():
     videos = []
     if os.path.exists(usb_directory):
         for file in os.listdir(usb_directory):
-            if file.lower().endswith('.mp4'):
+            if file.lower().endswith(('.mp4', '.mkv')):
                 videos.append(os.path.join(usb_directory, file))
     else:
         print(f"USB directory '{usb_directory}' not found. Ensure the USB is connected and mounted.")
