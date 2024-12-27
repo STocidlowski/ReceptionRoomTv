@@ -35,9 +35,9 @@ def play_videos():
         print(f"Playing video: {video}")
         # Launch mpv with no interface and fullscreen
         # rpi hardware decoding
-        play_process = Popen(['mpv', '--vo=rpi', '--hwdec=mmal', '--no-terminal', '--fullscreen', '--loop-file=no', video])
+        # play_process = Popen(['mpv', '--vo=rpi', '--hwdec=mmal', '--no-terminal', '--fullscreen', '--loop-file=no', video])
         # rpi hardware decoding on rpi4
-        # play_process = Popen(['mpv', '--vo=drm', '--drm-connector=0.HDMA-A-1', '--hwdec=mmal', '--no-terminal', '--fullscreen', '--loop-file=no', video])
+        play_process = Popen(['mpv', '--vo=drm', '--drm-connector=0.HDMA-A-1', '--hwdec=mmal', '--no-terminal', '--fullscreen', '--loop-file=no', video])
         # play_process = Popen(['mpv', '--no-terminal', '--fullscreen', '--loop-file=no', video])
         play_process.wait()  # Wait for the video to finish
 
