@@ -1,3 +1,5 @@
+# NOTE: Not implemented yet
+
 import RPi.GPIO as GPIO
 import time
 import os
