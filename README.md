@@ -8,7 +8,8 @@ simple, cost-effective video playback solution. This is designed to boot up and 
 I started this project 12/2024, later expanded it to 4 TVs in an urgent care office 1/2025. This project is based on the 
 [Desktop Simpsons TV project](https://withrow.io/simpsons-tv-build-guide). This project is running without issue on a 
 [Raspberry Pi Zero 2](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) ($15), however this can be run in any
-environment, bonus points if you reduce ewaste by reusing an idle machine. I wanted to reduce E-waste throwing out these older boards.
+environment, bonus points if you reduce ewaste by reusing an idle machine. I wanted to reduce E-waste by not throwing 
+out or keeping these older boards unused.
 
 The goal was a standalone video player that will run at boot. This was done to play videos in a loop on a waiting room
 TV, and does not need the extreme bandwidth of continuous streaming.
@@ -33,6 +34,7 @@ Plan to use a large SD card (128GB, 256GB) if you are loading the videos permane
 Install [handbrake](https://handbrake.fr/) to re-encode your files if you want/need to. 
 
 Videos must be encoded into the H.264 format, Raspberry Pis do not have the dedicated hardware processing for H.265/HEVC
+I was having some difficulty getting the hardware decoding on the 32 bit version with mpv.
 
 I converted to 720p with burned in subtitles. I may redo this later, as MPV is very capable of displaying subtitles.
 
@@ -154,13 +156,13 @@ WantedBy=multi-user.target
 ```
 
 
-Now lets set these two services to start on boot:
+Now lets set it to start on boot:
 
 ```
 sudo systemctl enable tvplayer.service
 ```
 
-if you edit, and need to reload use:
+if you edit the service and need to reload use:
 ```bash
 systemctl daemon-reload
 ```
@@ -198,7 +200,6 @@ sudo blkid
 ```
 
 `/dev/sda1: UUID="8227-A56F" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="d92dc72c-01"`
-
 `/dev/sdb1: LABEL="SANDISK32" UUID="2C67-8722" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="f95ccdef-01"`
 
 if you want to temporarily test if mounting the usb works (needed every reboot):
@@ -206,8 +207,12 @@ if you want to temporarily test if mounting the usb works (needed every reboot):
 sudo mount /dev/sda1 /mnt/usb1
 ```
 
-Added the following line:
 ```bash
+sudo nano /etc/fstab
+```
+
+Added the following line:
+```
 UUID=8227-A56F /mnt/usb1 vfat defaults 0 0
 ```
 
@@ -225,7 +230,5 @@ setup is complete!
 If you want to, and if your SD card is large enough for it.
 
 ```
-sudo cp -R /mnt/usb1 ~/ReceptionRoomTv/videos
+sudo cp -R -v /mnt/usb1 ~/ReceptionRoomTv/videos
 ```
-
-
