@@ -3,17 +3,18 @@
 This will ignore any files that start with a period or are hidden (e.g. `.ExampleHiddenShow`).
 
 This will not play videos in a file if there are valid subdirectories with videos in the same directory.
-"""
 
+"""
 import logging
 import os
 import re
 from itertools import cycle, islice
 from subprocess import Popen, CalledProcessError
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
-from pydantic import BaseModel
+# from pydantic import BaseModel
+from dataclasses import dataclass, field
 
 
 VIDEO_SOURCE_DIRECTORIES: list[str] = [
@@ -131,10 +132,23 @@ def play_videos(playlist: list[Path]) -> None:
         logging.error(f"Failed to play videos: {e}")
 
 
-class Playlist(BaseModel):
+# class Playlist(BaseModel):
+#     show_name: str
+#     videos: list[Path]
+#     progress: int = 0
+# 
+#     def next_video(self):
+#         if not self.videos:
+#             raise ValueError("Playlist has no videos")
+#         video = self.videos[self.progress]
+#         self.progress = (self.progress + 1) % len(self.videos)
+#         return video
+
+@dataclass
+class Playlist:
     show_name: str
-    videos: list[Path]
-    progress: int = 0
+    videos: List[Path]
+    progress: int = field(default=0)
 
     def next_video(self):
         if not self.videos:
